@@ -1,0 +1,75 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background-color: lightblue;
+}
+.box-wrapper{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	width: 400px;
+	height: 400px;
+	background-color: #fafafa;
+	border-radius: 5px;
+	border: 2px solid #fafafa;
+}
+.box-wrapper div{
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	color: #fafafa;
+	font-weight: 700;
+	font-size: 24px;
+	background-color: #ccc;
+	box-sizing: border-box;
+	border: 2px solid #fafafa;
+}
+
+.value0{
+	background-color: #ccc !important;
+}
+.value2{
+
+}
+.value4{
+	
+}
+.value8{
+	
+}
+.value16{
+	
+}
+.value32{
+	
+}
+.value64{
+	
+}
+.value128{
+	
+}
+.value256{
+	
+}
+.value512{
+	
+}
+.value1024{
+	
+}
+.value2048{
+	
+}
+.value4096{
+	
+}
+
+/*最终游戏设计*/
