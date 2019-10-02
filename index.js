@@ -1,4 +1,8 @@
-// 监听事件（键盘、手势）
+// 游戏初始化
+function handleInit() {
+
+}
+
 function handle(direction) {
 	let dom = handleDomData(direction)
 	let newdom = []
@@ -26,6 +30,7 @@ function handleDomData(direction) {
 	let __domarr = []
 
 
+	// 左右数组组合 ？
 	for (let i = 0 ; i < domarr.length; i++) {
 		_domarr.push(Number(domarr.eq(i).text()))
 	}
@@ -36,6 +41,7 @@ function handleDomData(direction) {
 		}
 	}
 
+	// 上下数组组合 ？
 	if (direction === 'top' || direction === 'bottom') {
 		for (let i = 0 ; i <= 3 ; i++) {
 			let a = []
@@ -143,17 +149,73 @@ function handleRenderDom(value) {
 	for (let i = 0 ; i < value.length ; i++) {
 		boxWrapper.append('<div class="value'+value[i]+'">'+value[i]+'</div>')
 	}
+
+	handleGameFinish()
 }
 
 // 游戏结束
-function handleGameFinish(arr) {
-	let _arr = arr.reduce((total, currentValue, currentIndex, array) => {
-		return total.concat([...currentValue])
-	}, [])
+function handleGameFinish() {
+	let domarr = $('.box-wrapper div')
+	let _domarr = []
+	let failLock = 0
 
-	console.log(_arr.indexOf(0) === -1)
+	for (let i = 0 ; i < domarr.length; i++) {
+		_domarr.push(Number(domarr.eq(i).text()))
+	}
+
+	if (_domarr.indexOf(0) === -1) {
+		console.log('start finish handle game')
+
+		checkAccessMove1(_domarr)
+		checkAccessMove2(_domarr)
+
+		if (failLock === 8) {
+			console.log('game over')
+		}
+	}
+
+	function checkAccessMove1(arr) {
+		let _arr = JSON.parse(JSON.stringify(arr))
+		let _d = []
+		for(let j = 0; j <= 3; j++){
+		    _d.push(_arr.splice(0, 4))
+		}
+		checkArr(_d)
+	}
+
+	function checkAccessMove2(arr) {
+		let _arr = JSON.parse(JSON.stringify(arr))
+		let _d = []
+
+		for (let i = 0 ; i <= 3 ; i++) {
+			let a = []
+			for (let j = 0 ; j <= 3 ; j++) {
+				a.push(_arr[i + (j * 4)])
+			}
+			_d.push(a)
+		}
+
+		checkArr(_d)
+	}
+
+	function checkArr(arr) {
+	 	for(let i = 0 ; i <= 3 ; i++) {
+			let afterarr = []
+		    arr[i].forEach((item, index) => {
+		        if(item != arr[i][index-1]) {
+		            afterarr.push(item)
+		        }
+		    });
+
+
+	 		if (arr[i].join("") === afterarr.join("")) {
+	 			failLock += 1
+	 		}
+	 	}
+	} 
 }
 
+// 监听事件（键盘、手势）
 document.onkeydown = e => {
 	switch(e.keyCode) {
 		case 38: 
@@ -170,3 +232,5 @@ document.onkeydown = e => {
 			return
 	}
 } 
+
+handleGameFinish()
