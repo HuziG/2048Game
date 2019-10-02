@@ -6,58 +6,25 @@
 </head>
 <body>
 	<div class="box-wrapper">
-		<div>2</div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
+		<div class="value2">2</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value2">2</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
+		<div class="value0">0</div>
 	</div>
 
 	<script src="./jquery.min.js"></script>
-	<!-- <script src="./index.js"></script> -->
-	<script type="text/javascript">
-		let arr = [0,2,0,2]
-
-		arr = arr.reduce((total, currentValue, currentIndex, arr) => {
-			if (currentValue != 0) {
-				total.push(currentValue)
-			}
-
-			return total
-		}, [])
-
-		arr.map((item, index, array) => {
-			if (item === array[index + 1]) {
-				array[index] = item + array[index + 1]
-				array[index + 1] = 0
-			}
-			return array
-		})
-
-		arr = arr.reduce((total, currentValue, currentIndex, arr) => {
-			if (currentValue != 0) {
-				total.push(currentValue)
-			}
-
-			return total
-		}, [])
-
-		while(arr.length < 4) {
-			arr.push(0)
-		}
-
-		console.log(arr)
-	</script>
+	<script src="./index.js"></script>
 </body>
 </html>
