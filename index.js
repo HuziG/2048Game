@@ -1,10 +1,37 @@
 // 游戏初始化
-function handleInit() {
+(function() {
+	let storageGameState = localStorage.getItem('game_state')
+	if (storageGameState) {
+		$('.box-wrapper').html(storageGameState)
+	} else {
+		handleInit()
+	}
+})()
 
+function handleInit() {
+	$('.box-wrapper').empty()
+	for (let i = 0 ; i <= 15 ; i++) {
+		$('.box-wrapper').append('<div class="value0">0</div>')
+	}
+
+	let randomArr = []
+	while(randomArr.length < 2) {
+		let index = Math.floor(Math.random() * 15)
+		if (randomArr.indexOf(index) === -1) {
+			randomArr.push(index)
+		}
+	}
+
+	for (let i = 0 ; i <= 1 ; i ++) {
+		$('.box-wrapper div').eq(randomArr[i]).replaceWith('<div class="value2">2</div>')
+	}
+
+	localStorage.setItem('game_state', $('.box-wrapper').html())
 }
 
 function handle(direction) {
-	let dom = handleDomData(direction)
+	let dom = ''
+	dom = handleDomData(direction)
 	let newdom = []
 	let _mdirection = direction
 
@@ -29,11 +56,12 @@ function handleDomData(direction) {
 	let _domarr = []
 	let __domarr = []
 
-
-	// 左右数组组合 ？
+	
 	for (let i = 0 ; i < domarr.length; i++) {
 		_domarr.push(Number(domarr.eq(i).text()))
 	}
+
+	top.startDomarr = JSON.parse(JSON.stringify(_domarr))
 
 	if (direction === 'left' || direction === 'right') {
 		for(let j = 0; j <= 3; j++){
@@ -41,7 +69,6 @@ function handleDomData(direction) {
 		}
 	}
 
-	// 上下数组组合 ？
 	if (direction === 'top' || direction === 'bottom') {
 		for (let i = 0 ; i <= 3 ; i++) {
 			let a = []
@@ -98,7 +125,7 @@ function handleMoving(arr, direction) {
 function handleMoveAfter(arr, direction) {
 	let _arr = []
 	if (direction === 'left' || direction === 'right') {
-		_arr = arrayToFloor(arr)
+		_arr = arr.myArrayFloor()
 	}
 
 	if (direction === 'top' || direction === 'bottom') {
@@ -109,20 +136,11 @@ function handleMoveAfter(arr, direction) {
 			}
 			_arr.push(a)
 		}
-		_arr = arrayToFloor(_arr)
+		_arr = _arr.myArrayFloor()
+		console.log(_arr)
 	}
-
 	arr = handleRandomCreate(_arr)
-
 	handleRenderDom(arr)
-
-	function arrayToFloor(array) {
-		let _array = array.reduce((total, currentValue, currentIndex, array) => {
-			return total.concat([...currentValue])
-		}, [])
-
-		return _array
-	}
 }
 
 // 随机2生成
@@ -143,14 +161,34 @@ function handleRandomCreate(arr) {
 
 // dom渲染
 function handleRenderDom(value) {
+	let animatearr = handleAnimate(value)
 	let boxWrapper = $('.box-wrapper')
 	boxWrapper.empty()
 
 	for (let i = 0 ; i < value.length ; i++) {
-		boxWrapper.append('<div class="value'+value[i]+'">'+value[i]+'</div>')
+		let ani = ''
+		if (animatearr.indexOf(i) != -1) {
+			ani += 'bounceIn-do'
+		}
+		boxWrapper.append(`<div class="value${value[i]} ${ani}">${value[i]}</div>`)
 	}
 
+	localStorage.setItem('game_state', $('.box-wrapper').html())
+
 	handleGameFinish()
+}
+
+// 合成动画执行
+function handleAnimate(arr) {
+	let arr1 = top.startDomarr
+	let arr2 = arr
+	let rarr = []
+	arr2.forEach((item, index) => {
+		if ((arr2[index] - arr1[index] >= 2 && arr1[index] != 0) || (arr2[index] - arr1[index] >= 4 && arr1[index] === 0)) {
+			rarr.push(index) 
+		}
+	})
+	return rarr
 }
 
 // 游戏结束
@@ -166,15 +204,15 @@ function handleGameFinish() {
 	if (_domarr.indexOf(0) === -1) {
 		console.log('start finish handle game')
 
-		checkAccessMove1(_domarr)
-		checkAccessMove2(_domarr)
+		checkAccessMoveRow(_domarr)
+		checkAccessMoveColumn(_domarr)
 
 		if (failLock === 8) {
 			console.log('game over')
 		}
 	}
 
-	function checkAccessMove1(arr) {
+	function checkAccessMoveRow(arr) {
 		let _arr = JSON.parse(JSON.stringify(arr))
 		let _d = []
 		for(let j = 0; j <= 3; j++){
@@ -183,7 +221,7 @@ function handleGameFinish() {
 		checkArr(_d)
 	}
 
-	function checkAccessMove2(arr) {
+	function checkAccessMoveColumn(arr) {
 		let _arr = JSON.parse(JSON.stringify(arr))
 		let _d = []
 
@@ -233,4 +271,18 @@ document.onkeydown = e => {
 	}
 } 
 
-handleGameFinish()
+$('#refresh-but').on('click', function() {
+	handleInit()
+})
+
+// 定义数组拍平
+Array.prototype.myArrayFloor = function() {
+	if (this.lenght === 0) {
+		return this
+	}
+	let _array = this.reduce((total, currentValue, currentIndex, array) => {
+		return total.concat([...currentValue])
+	}, [])
+
+	return _array
+}
