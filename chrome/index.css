@@ -1,0 +1,163 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background-color: lightblue;
+}
+.box-wrapper{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	width: 400px;
+	height: 400px;
+	background-color: #ccc;
+	border-radius: 5px;
+	border: 2px solid #91C1EA;
+}
+.box-wrapper div{
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	color: #fafafa;
+	font-weight: 700;
+	font-size: 24px;
+	background-color: #ccc;
+	box-sizing: border-box;
+	border: 2px solid #91C1EA;
+}
+.button-group{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 500px;
+}
+.button-group div{
+	background-color: #fafafa;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: #666;
+	font-weight: 700;
+	font-size: 22px;
+	cursor: pointer;
+}
+#score-block{
+	margin-left: 15px;
+}
+#maxscore-block{
+	margin-left: 15px;
+}
+.button-group div:active{
+	opacity: .7;
+}
+
+.bounceIn-do{
+	animation: bounceIn 0.5s linear;
+}
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.value0{
+	color: #ccc !important;
+	background-color: #ccc !important;
+}
+.value2{
+	color: #6F7D8D !important;
+	background-color: #EEF2FE !important;
+}
+.value4{
+	color: #477699 !important;
+	background-color: #E6F4FF !important;
+}
+.value8{
+	color: #0D75B6 !important;
+	background-color: #D4EEFF !important;
+}
+.value16{
+	color: #2D8E9D !important;
+	background-color: #CDEEF6 !important;
+}
+.value32{
+	color: #56931A !important;
+	background-color: #E1F0CF !important;
+}
+.value64{
+	color: #8763CD !important;
+	background-color: #F2E5FF !important;
+}
+.value128{
+	color: #E1657A !important;
+	background-color: #FFD3E0 !important;
+}
+.value256{
+	color: #F37829 !important;
+	background-color: #FFD8B4 !important;
+}
+.value512{
+	color: #fff !important;
+	background-color: #FFA000 !important;
+}
+.value1024{
+	color: #333 !important;
+	background-color: #13D7FF !important;
+}
+.value2048{
+	color: #FFF16C !important;
+	background-color: #FF6EA4 !important;
+}
+.value4096{
+	color: #D30413 !important;
+	background-color: #2B2D35 !important;
+}

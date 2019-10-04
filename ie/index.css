@@ -5,6 +5,9 @@
 body{
 	background-color: lightblue;
 }
+h3{
+	color: #666;
+}
 .box-wrapper{
 	display: flex;
 	flex-direction: row;
