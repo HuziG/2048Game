@@ -5,8 +5,8 @@
 body{
 	background-color: lightblue;
 }
-h3{
-	color: #666;
+h1,h2,h3{
+	line-height: 40px;
 }
 .box-wrapper{
 	display: flex;
@@ -39,12 +39,38 @@ h3{
 	flex-direction: row;
 	flex-wrap: wrap;
 	position: absolute;
-	top: 20%;
+	top: 18%;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 400px;
+	width: 500px;
+	margin-left: 50px;
 }
-.button-group div{
+#score-block{
+	margin-left: 15px;
+}
+#maxscore-block{
+	margin-left: 15px;
+}
+
+.result-wrapper{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(251,248,239,.5);
+	width: 100%;
+	height: 100%;
+}
+.result-middle{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	text-align: center;
+}
+.global-button{
+	margin-top: 30px;
+	display: inline-block;
 	background-color: #fafafa;
 	padding: 5px 10px;
 	border-radius: 5px;
@@ -53,8 +79,8 @@ h3{
 	font-size: 22px;
 	cursor: pointer;
 }
-.button-group div:active{
-	padding: 3px 7px;
+.global-button:active{
+	opacity: .7;
 }
 
 .bounceIn-do{
@@ -153,8 +179,4 @@ h3{
 .value2048{
 	color: #FFF16C !important;
 	background-color: #FF6EA4 !important;
-}
-.value4096{
-	color: #D30413 !important;
-	background-color: #2B2D35 !important;
 }

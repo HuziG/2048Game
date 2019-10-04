@@ -1,39 +1,37 @@
-var scoreValueDom = $('#score-counter');
-var scoreValue = 0;
 var maxScore;
+var curScore = 0
 
-// 游戏初始化
 handleInit()
 
+// 游戏初始化
 function handleInit() {
-  $(".box-wrapper").empty();
-  for (let i = 0; i <= 15; i++) {
-    $(".box-wrapper").append('<div class="value0">0</div>');
-  }
+  tableInit()
 
-  let randomArr = [];
-  while (randomArr.length < 2) {
-    let index = Math.floor(Math.random() * 15);
-    if (randomArr.indexOf(index) === -1) {
-      randomArr.push(index);
+  handleSetGameScore('refresh')
+
+  function tableInit() {
+    $(".box-wrapper").empty();
+    for (let i = 0; i <= 15; i++) {
+      $(".box-wrapper").append('<div class="value0">0</div>');
     }
-  }
 
-  for (let i = 0; i <= 1; i++) {
-    $(".box-wrapper div")
-      .eq(randomArr[i])
-      .replaceWith('<div class="value2">2</div>');
-  }
+    let randomArr = [];
+    while (randomArr.length < 2) {
+      let index = Math.floor(Math.random() * 15);
+      if (randomArr.indexOf(index) === -1) {
+        randomArr.push(index);
+      }
+    }
 
-  scoreRefresh()
-
-  function scoreRefresh() {
-    maxScore = localStorage.getItem('game_maxscore') || 0
-    $('#max-score-counter').text(maxScore)
-    scoreValueDom.text(0)
+    for (let i = 0; i <= 1; i++) {
+      $(".box-wrapper div")
+        .eq(randomArr[i])
+        .replaceWith('<div class="value2">2</div>');
+    }
   }
 }
 
+// 方向机制
 function handle(direction) {
   let dom = "";
   dom = handleDomData(direction);
@@ -104,7 +102,11 @@ function handleMoving(arr, direction) {
     if (item === array[index + 1]) {
       let sum = item + array[index + 1];
 
-      handleSetGameScore(sum)
+      handleSetGameScore('add',sum)
+
+      if (sum === 2048) {
+        handleGameWin()
+      }
 
       array[index] = sum;
       array[index + 1] = 0;
@@ -217,12 +219,13 @@ function handleGameFinish() {
 
     if (failLock === 8) {
       setTimeout(function() {
-        alert('游戏结束!')
-        localStorage.setItem('game_maxscore', $('#max-score-counter').text())
+        $('.gameover-wrapper').fadeIn()
+        handleSetGameScore('setmax',curScore)
       }, 100);
     }
   }
 
+  // 横向检查
   function checkAccessMoveRow(arr) {
     let _arr = JSON.parse(JSON.stringify(arr));
     let _d = [];
@@ -232,6 +235,7 @@ function handleGameFinish() {
     checkArr(_d);
   }
 
+  // 纵向检查
   function checkAccessMoveColumn(arr) {
     let _arr = JSON.parse(JSON.stringify(arr));
     let _d = [];
@@ -247,6 +251,7 @@ function handleGameFinish() {
     checkArr(_d);
   }
 
+  // 检查操作
   function checkArr(arr) {
     for (let i = 0; i <= 3; i++) {
       let afterarr = [];
@@ -264,12 +269,36 @@ function handleGameFinish() {
 }
 
 // 合计分数
-function handleSetGameScore(value) {
-  scoreValue = scoreValue + value
-  $('#score-counter').text(scoreValue)
-  if (maxScore === 0) {
-    $('#max-score-counter').text(scoreValue)
+function handleSetGameScore(mode, value) {
+  maxScore = localStorage.getItem('max_score') || 0
+
+  if (mode === 'add') {
+    curScore = curScore + value
+    if (maxScore === 0) {
+      $('#max-score-counter').text(curScore)
+    }
+    if (curScore >= maxScore) {
+      $('#max-score-counter').text(curScore)
+    }
+    $('#score-counter').text(curScore)
   }
+
+  if (mode === 'refresh') {
+    curScore = 0
+    $('#score-counter').text(0)
+    $('#max-score-counter').text(maxScore)
+  }
+
+  if (mode === 'setmax') {
+    if (value >= maxScore) {
+      localStorage.setItem('max_score', value)
+    }
+  }
+}
+
+// 游戏成功
+function handleGameWin() {
+  $('.gamewin-wrapper').fadeIn()
 }
 
 // 监听事件（键盘、手势）
@@ -290,9 +319,19 @@ document.onkeydown = e => {
   }
 };
 
-$("#refresh-but").on("click", function() {
+$("#refresh-but").on("click", () => {
   handleInit();
 });
+
+$('#try-again-but').on('click', () => {
+  $('.gameover-wrapper').fadeOut()
+  handleInit()
+})
+
+$('#restart-but').on('click', () => {
+  $('.gamewin-wrapper').fadeOut()
+  handleInit()
+})
 
 // 定义数组拍平
 Array.prototype.myArrayFloor = function() {
