@@ -319,6 +319,14 @@ document.onkeydown = e => {
   }
 };
 
+window.onblur = function() {
+  $('.blurfocus-wrapper').fadeToggle()
+}
+
+window.onfocus = function() {
+  $('.blurfocus-wrapper').fadeToggle()
+}
+
 $("#refresh-but").on("click", () => {
   handleInit();
 });
