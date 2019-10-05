@@ -1,13 +1,13 @@
 var maxScore;
-var curScore = 0
+var curScore = 0;
 
-handleInit()
+handleInit();
 
 // 游戏初始化
 function handleInit() {
-  tableInit()
+  tableInit();
 
-  handleSetGameScore('refresh')
+  handleSetGameScore("refresh");
 
   function tableInit() {
     $(".box-wrapper").empty();
@@ -92,20 +92,16 @@ function handleMoving(arr, direction) {
     _arr = _arr.reverse();
   }
 
-  _arr = _arr.reduce((total, currentValue, currentIndex, array) => {
-    if (currentValue != 0) {
-      total.push(currentValue);
-    }
-    return total;
-  }, []);
+  _arr = zeroCheck(_arr);
+
   _arr.map((item, index, array) => {
     if (item === array[index + 1]) {
       let sum = item + array[index + 1];
 
-      handleSetGameScore('add',sum)
+      handleSetGameScore("add", sum);
 
       if (sum === 2048) {
-        handleGameWin()
+        handleGameWin();
       }
 
       array[index] = sum;
@@ -113,12 +109,8 @@ function handleMoving(arr, direction) {
     }
     return array;
   });
-  _arr = _arr.reduce((total, currentValue, currentIndex, array) => {
-    if (currentValue != 0) {
-      total.push(currentValue);
-    }
-    return total;
-  }, []);
+
+  _arr = zeroCheck(_arr);
 
   while (_arr.length < 4) {
     _arr.push(0);
@@ -129,6 +121,16 @@ function handleMoving(arr, direction) {
   }
 
   return _arr;
+
+  function zeroCheck(arr) {
+    let _arr = arr.reduce((total, currentValue, currentIndex, array) => {
+      if (currentValue != 0) {
+        total.push(currentValue);
+      }
+      return total;
+    }, []);
+    return _arr;
+  }
 }
 
 // 移动后组成
@@ -179,9 +181,7 @@ function handleRenderDom(value) {
     if (animatearr.indexOf(i) != -1) {
       ani += "bounceIn-do";
     }
-    boxWrapper.append(
-      `<div class="value${value[i]} ${ani}">${value[i]}</div>`
-    );
+    boxWrapper.append(`<div class="value${value[i]} ${ani}">${value[i]}</div>`);
   }
 
   handleGameFinish();
@@ -219,8 +219,8 @@ function handleGameFinish() {
 
     if (failLock === 8) {
       setTimeout(function() {
-        $('.gameover-wrapper').fadeIn()
-        handleSetGameScore('setmax',curScore)
+        $(".gameover-wrapper").fadeIn();
+        handleSetGameScore("setmax", curScore);
       }, 100);
     }
   }
@@ -270,35 +270,35 @@ function handleGameFinish() {
 
 // 合计分数
 function handleSetGameScore(mode, value) {
-  maxScore = localStorage.getItem('max_score') || 0
+  maxScore = localStorage.getItem("max_score") || 0;
 
-  if (mode === 'add') {
-    curScore = curScore + value
+  if (mode === "add") {
+    curScore = curScore + value;
     if (maxScore === 0) {
-      $('#max-score-counter').text(curScore)
+      $("#max-score-counter").text(curScore);
     }
     if (curScore >= maxScore) {
-      $('#max-score-counter').text(curScore)
+      $("#max-score-counter").text(curScore);
     }
-    $('#score-counter').text(curScore)
+    $("#score-counter").text(curScore);
   }
 
-  if (mode === 'refresh') {
-    curScore = 0
-    $('#score-counter').text(0)
-    $('#max-score-counter').text(maxScore)
+  if (mode === "refresh") {
+    curScore = 0;
+    $("#score-counter").text(0);
+    $("#max-score-counter").text(maxScore);
   }
 
-  if (mode === 'setmax') {
+  if (mode === "setmax") {
     if (value >= maxScore) {
-      localStorage.setItem('max_score', value)
+      localStorage.setItem("max_score", value);
     }
   }
 }
 
 // 游戏成功
 function handleGameWin() {
-  $('.gamewin-wrapper').fadeIn()
+  $(".gamewin-wrapper").fadeIn();
 }
 
 // 监听事件（键盘、手势）
@@ -320,26 +320,26 @@ document.onkeydown = e => {
 };
 
 window.onblur = function() {
-  $('.blurfocus-wrapper').fadeToggle()
-}
+  $(".blurfocus-wrapper").fadeToggle();
+};
 
 window.onfocus = function() {
-  $('.blurfocus-wrapper').fadeToggle()
-}
+  $(".blurfocus-wrapper").fadeToggle();
+};
 
 $("#refresh-but").on("click", () => {
   handleInit();
 });
 
-$('#try-again-but').on('click', () => {
-  $('.gameover-wrapper').fadeOut()
-  handleInit()
-})
+$("#try-again-but").on("click", () => {
+  $(".gameover-wrapper").fadeOut();
+  handleInit();
+});
 
-$('#restart-but').on('click', () => {
-  $('.gamewin-wrapper').fadeOut()
-  handleInit()
-})
+$("#restart-but").on("click", () => {
+  $(".gamewin-wrapper").fadeOut();
+  handleInit();
+});
 
 // 定义数组拍平
 Array.prototype.myArrayFloor = function() {
