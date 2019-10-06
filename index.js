@@ -1,10 +1,11 @@
+// global data
 var maxScore;
 var curScore = 0;
 
+// game init
 handleInit();
 
-// 游戏初始化
-function handleInit() {
+function handleInit() { // 游戏初始化
   tableInit();
 
   handleSetGameScore("refresh");
@@ -31,8 +32,7 @@ function handleInit() {
   }
 }
 
-// 方向机制
-function handle(direction) {
+function handle(direction) { // 方向机制
   let dom = "";
   dom = handleDomData(direction);
   let newdom = [];
@@ -53,8 +53,7 @@ function handle(direction) {
   handleMoveAfter(newdom, direction);
 }
 
-// 获取dom转为数据
-function handleDomData(direction) {
+function handleDomData(direction) { // 获取dom转为数据
   let domarr = $(".box-wrapper div");
   let _domarr = [];
   let __domarr = [];
@@ -84,8 +83,7 @@ function handleDomData(direction) {
   return __domarr;
 }
 
-// 移动数据操作
-function handleMoving(arr, direction) {
+function handleMoving(arr, direction) { // 移动数据操作
   let _arr = arr;
 
   if (direction === "right") {
@@ -133,8 +131,8 @@ function handleMoving(arr, direction) {
   }
 }
 
-// 移动后组成
-function handleMoveAfter(arr, direction) {
+
+function handleMoveAfter(arr, direction) { // 移动后组成
   let _arr = [];
   if (direction === "left" || direction === "right") {
     _arr = arr.myArrayFloor();
@@ -154,8 +152,8 @@ function handleMoveAfter(arr, direction) {
   handleRenderDom(arr);
 }
 
-// 随机2生成
-function handleRandomCreate(arr) {
+
+function handleRandomCreate(arr) { // 随机2生成
   let indexArr = arr.reduce((total, currentValue, currentIndex, array) => {
     if (currentValue === 0) {
       total.push(currentIndex);
@@ -170,8 +168,7 @@ function handleRandomCreate(arr) {
   return arr;
 }
 
-// dom渲染
-function handleRenderDom(value) {
+function handleRenderDom(value) { // dom渲染
   let animatearr = handleAnimate(value);
   let boxWrapper = $(".box-wrapper");
   boxWrapper.empty();
@@ -187,8 +184,8 @@ function handleRenderDom(value) {
   handleGameFinish();
 }
 
-// 合成动画执行
-function handleAnimate(arr) {
+
+function handleAnimate(arr) { // 合成动画执行
   let arr1 = top.startDomarr;
   let arr2 = arr;
   let rarr = [];
@@ -203,8 +200,8 @@ function handleAnimate(arr) {
   return rarr;
 }
 
-// 游戏结束
-function handleGameFinish() {
+
+function handleGameFinish() { // 游戏结束
   let domarr = $(".box-wrapper div");
   let _domarr = [];
   let failLock = 0;
@@ -268,8 +265,8 @@ function handleGameFinish() {
   }
 }
 
-// 合计分数
-function handleSetGameScore(mode, value) {
+
+function handleSetGameScore(mode, value) { // 合计分数
   maxScore = localStorage.getItem("max_score") || 0;
 
   if (mode === "add") {
@@ -291,18 +288,18 @@ function handleSetGameScore(mode, value) {
 
   if (mode === "setmax") {
     if (value >= maxScore) {
-      localStorage.setItem("max_score", value);
+      localStorage.setItem("dj_max_score", value);
     }
   }
 }
 
-// 游戏成功
-function handleGameWin() {
+
+function handleGameWin() { // 游戏成功
   $(".gamewin-wrapper").fadeIn();
 }
 
-// 监听事件（键盘、手势）
-document.onkeydown = e => {
+
+document.onkeydown = e => { // 监听事件（键盘、手势）
   switch (e.keyCode) {
     case 38:
       handle("top");
@@ -319,30 +316,34 @@ document.onkeydown = e => {
   }
 };
 
+// 页面失焦
 window.onblur = function() {
   $(".blurfocus-wrapper").fadeToggle();
 };
 
+// 页面聚焦
 window.onfocus = function() {
   $(".blurfocus-wrapper").fadeToggle();
 };
 
+// 刷新button
 $("#refresh-but").on("click", () => {
   handleInit();
 });
 
+// 重试button
 $("#try-again-but").on("click", () => {
   $(".gameover-wrapper").fadeOut();
   handleInit();
 });
 
+// 重开button
 $("#restart-but").on("click", () => {
   $(".gamewin-wrapper").fadeOut();
   handleInit();
 });
 
-// 定义数组拍平
-Array.prototype.myArrayFloor = function() {
+Array.prototype.myArrayFloor = function() { // 定义数组拍平
   if (this.lenght === 0) {
     return this;
   }

@@ -86,7 +86,6 @@ h1,h2,h3{
 .bounceIn-do{
 	animation: bounceIn 0.5s linear;
 }
-
 @keyframes bounceIn {
   from,
   20%,
@@ -170,13 +169,15 @@ h1,h2,h3{
 }
 .value512{
 	color: #fff !important;
-	background-color: #FFA000 !important;
+	background-color: #21D4FD !important;
+	background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
 }
 .value1024{
 	color: #333 !important;
-	background-color: #13D7FF !important;
+	background-color: #52ACFF !important;
+	background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
 }
 .value2048{
-	color: #FFF16C !important;
-	background-color: #FF6EA4 !important;
+	color: #fff !important;
+	background-color: #000 !important;
 }
